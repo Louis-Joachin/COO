@@ -24,12 +24,15 @@ public class Echiquier implements BoardGames {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	public void switchJoueur() {
+		if(this.current == JeuBlanc) {
+			this.current.couleur
+		}
+	}
 
 	@Override
 	public Couleur getColorCurrentPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.current.;
 	}
 
 	@Override

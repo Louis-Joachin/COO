@@ -36,7 +36,9 @@ public class Jeu {
 		boolean result = false;
 		Pieces piece = this.findPiece(xFinal, yFinal);
 		if(this.isPieceHere(xInit, yInit) && piece.isMoveOk(xFinal, yFinal)) {
-			result = true;
+			if(this.isPieceHere(xFinal, yFinal)) {
+				result = false;
+			}
 		}
 		return result;
 	}
@@ -73,6 +75,10 @@ public class Jeu {
 	
 	public Couleur getColor() {
 		return this.couleur;
+	}
+	
+	public String getPieceType(int x, int y) {
+		return this.findPiece(x, y).getClass().getSimpleName();
 	}
 	
 	/**
