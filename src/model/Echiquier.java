@@ -1,6 +1,17 @@
 package model;
 
 public class Echiquier implements BoardGames {
+	Jeu current;
+	Jeu JeuNoir;
+	Jeu JeuBlanc;
+	String message;
+
+
+	public Echiquier() {
+		JeuNoir= new Jeu(Couleur.NOIR);
+		JeuBlanc = new Jeu(Couleur.BLANC);	
+		current=JeuBlanc;
+	}
 
 	@Override
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal) {
@@ -14,11 +25,6 @@ public class Echiquier implements BoardGames {
 		return false;
 	}
 
-	@Override
-	public String getMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Couleur getColorCurrentPlayer() {
@@ -31,5 +37,22 @@ public class Echiquier implements BoardGames {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public String getMessage() {
+		return this.message;
+	}
+	
+	public String toString() {
+		return JeuNoir.toString()+'\n'+JeuBlanc.toString();
+		
+	}
+	
+	public static void main(String[] args) {
+		Echiquier monEchiquier = new Echiquier();
+		System.out.println(monEchiquier);
+	}
 }

@@ -8,7 +8,9 @@ public class Tour extends AbstractPiece{
 	
 	public boolean isMoveOk(int xFinal, int yFinal) {
 		boolean result = false;
-		if(xFinal == this.getX() || yFinal == this.getY()){
+		if(xFinal < 0 || yFinal < 0) {
+		}
+		else if(xFinal == this.getX() || yFinal == this.getY()){
 			result=true;
 		}
 		return result;

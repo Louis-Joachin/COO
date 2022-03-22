@@ -8,26 +8,27 @@ public abstract class AbstractPiece implements Pieces {
 	public AbstractPiece(Couleur couleur, Coord coord) {
 		this.couleur=couleur;
 		this.coord=coord;
+		this.name=this.getClass().getSimpleName()+' '+this.couleur;
 	}
-	@Override
+	
 	public int getX() {
 		return this.coord.x;
 	}
 
-	@Override
+	
 	public int getY() {
 		return this.coord.y;
 	}
 
-	@Override
+	
 	public Couleur getCouleur() {
 		return this.couleur;
 	}
 
-	@Override
+	
 	public abstract boolean isMoveOk(int xFinal, int yFinal);
 
-	@Override
+	
 	public boolean move(int xFinal, int yFinal) {
 		boolean result=false;
 		if(this.isMoveOk(xFinal, yFinal)) {
@@ -48,4 +49,10 @@ public abstract class AbstractPiece implements Pieces {
 		return this.name+" : "+this.coord.toString();
 		}
 
+	
+	public static void main(String[] args) {
+		Pieces monFou = new Fou(Couleur.NOIR,new Coord(5,5));
+		monFou.move(4, 6);
+		System.out.println(monFou);
+	}
 }
