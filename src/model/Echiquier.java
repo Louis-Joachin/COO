@@ -1,22 +1,52 @@
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Echiquier implements BoardGames {
 	Jeu current;
-	Jeu JeuNoir;
-	Jeu JeuBlanc;
+	Jeu notCurrent;
 	String message;
 
-
 	public Echiquier() {
-		JeuNoir= new Jeu(Couleur.NOIR);
-		JeuBlanc = new Jeu(Couleur.BLANC);	
-		current=JeuBlanc;
+		notCurrent= new Jeu(Couleur.NOIR);
+		current = new Jeu(Couleur.BLANC);
 	}
 
-	@Override
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if(this.isMoveOk(xInit, yInit, xFinal, yFinal))
+			if(this.notCurrent.isPieceHere(xFinal, yFinal)) {
+				//this.notCurrent.capture(xFinal, yFinal); TODO
+			}
+			this.current.move(xInit, yInit, xFinal, yFinal);
+		return result;
+	}
+	
+	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
+		boolean result = false;
+		if(this.current.isPieceHere(xInit, yInit)) {
+			result = false;
+		}
+		else if(xFinal>7 || xFinal<0 || yFinal >7 || yFinal <0
+				||xFinal == xInit || yFinal == yInit) {
+			result=false;
+		}
+		else if(this.current.isMoveOk(xInit, yInit, xFinal, yFinal)==false) {
+			result = false;
+		}
+		//TODO pieces intermerdiaires
+		else if(this.current.isPieceHere(xFinal, yFinal)) {
+			result = false;
+			//TODO Roque du roi
+		}
+		else if(this.notCurrent.isPieceHere(xFinal, yFinal)) {
+			result = true;
+		}
+		else {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
@@ -25,14 +55,14 @@ public class Echiquier implements BoardGames {
 		return false;
 	}
 	public void switchJoueur() {
-		if(this.current == JeuBlanc) {
-			this.current.couleur
-		}
+		Jeu jeu = this.notCurrent;
+		this.notCurrent=this.current;
+		this.current=jeu;
 	}
 
 	@Override
 	public Couleur getColorCurrentPlayer() {
-		return this.current.;
+		return this.current.getColor();
 	}
 
 	@Override
@@ -50,12 +80,18 @@ public class Echiquier implements BoardGames {
 	}
 	
 	public String toString() {
-		return JeuNoir.toString()+'\n'+JeuBlanc.toString();
+		return this.current.toString()+'\n'+this.notCurrent.toString();
 		
 	}
 	
+	public List<PieceIHM> getPiecesIHM(){
+		List<PieceIHM> result = new LinkedList<PieceIHM>();
+		result.addAll(this.current.getPiecesIHM());
+		result.addAll(this.notCurrent.getPiecesIHM());
+		return result;
+	}
 	public static void main(String[] args) {
 		Echiquier monEchiquier = new Echiquier();
-		System.out.println(monEchiquier);
+		System.out.println(monEchiquier.getPiecesIHM());
 	}
 }

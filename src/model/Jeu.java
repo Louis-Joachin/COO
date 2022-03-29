@@ -9,6 +9,7 @@ import tools.ChessPiecesFactory;
 public class Jeu {
 	private List<Pieces> liste;
 	private Couleur couleur;
+	private LinkedList<Integer> lastMove;
 	public Jeu(Couleur couleur){
 		liste = ChessPiecesFactory.newPieces(couleur);
 		this.couleur = couleur;
@@ -25,6 +26,7 @@ public class Jeu {
 		}
 		return result;
 	}
+	
 	public boolean isPieceHere(int x, int y) {
 		boolean result = false;
 		if(this.findPiece(x, y)!=null) {
@@ -32,13 +34,15 @@ public class Jeu {
 		}
 		return result;		
 	}
+	
 	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal) {
 		boolean result = false;
-		Pieces piece = this.findPiece(xFinal, yFinal);
+		Pieces piece = this.findPiece(xInit, yInit);
 		if(this.isPieceHere(xInit, yInit) && piece.isMoveOk(xFinal, yFinal)) {
 			if(this.isPieceHere(xFinal, yFinal)) {
 				result = false;
 			}
+			result=true;
 		}
 		return result;
 	}
@@ -49,7 +53,23 @@ public class Jeu {
 			Pieces piece = this.findPiece(xInit, yInit);
 			result=piece.move(xFinal, yFinal);
 		}
+		this.lastMove= new LinkedList<Integer>();
+		this.lastMove.add(xInit);
+		this.lastMove.add(yInit);
+		this.lastMove.add(xFinal);
+		this.lastMove.add(yFinal);
 		return result;
+	}
+	
+	public void undoMove() {
+		ListIterator<Integer> it = lastMove.listIterator();
+		int xInit = it.next();
+		int yInit = it.next();
+		int xFinal = it.next();
+		int yFinal= it.next();
+		Pieces piece = this.findPiece(xFinal, yFinal);
+		//TODO
+		
 	}
 	
 	public void setPossibleCapture() {
@@ -81,6 +101,19 @@ public class Jeu {
 		return this.findPiece(x, y).getClass().getSimpleName();
 	}
 	
+	public Coord getKingCoord() {
+		Coord result = null;
+		ListIterator<Pieces> it = liste.listIterator();
+		while(it.hasNext()) {
+			Pieces piece = it.next();
+			if(piece instanceof Roi) {
+				result = new Coord(piece.getX(),piece.getY());
+				
+			}
+		}
+		return result;	
+	}
+
 	/**
 	 * @return une vue de la liste des pièces en cours
 	 * ne donnant que des accès en lecture sur des PieceIHM
@@ -117,10 +150,11 @@ public class Jeu {
 	 } 
 	
 	public static void main(String[] args) {
-		Jeu monJeu = new Jeu(Couleur.BLANC);
-		Pieces piece = monJeu.findPiece(0, 7);
-		boolean move = monJeu.isMoveOk(0,7,5,6);
-		System.out.println(monJeu.getPiecesIHM());
-		
+		Jeu monJeu = new Jeu(Couleur.NOIR);
+		monJeu.move(0, 1, 0, 2);
+		System.out.println(monJeu);
+		//monJeu.undoMove();
+		System.out.println(monJeu);
+
 	}
 }

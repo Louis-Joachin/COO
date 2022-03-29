@@ -19,4 +19,5 @@ public class Cavalier extends AbstractPiece{
 		}
 		return result;
 	}
+
 }

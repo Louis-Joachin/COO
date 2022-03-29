@@ -4,11 +4,14 @@ public abstract class AbstractPiece implements Pieces {
 	private String name;
 	private Couleur couleur;
 	private Coord coord;
+	boolean hasMoved;
+
 	
 	public AbstractPiece(Couleur couleur, Coord coord) {
 		this.couleur=couleur;
 		this.coord=coord;
 		this.name=this.getClass().getSimpleName()+' '+this.couleur;
+		this.hasMoved=false;
 	}
 	
 	public int getX() {
@@ -35,6 +38,9 @@ public abstract class AbstractPiece implements Pieces {
 			this.coord.x=xFinal;
 			this.coord.y=yFinal;
 			result=true;
+		}
+		if(this.hasMoved==false && result) {
+			this.hasMoved=true;
 		}
 		return result;
 	}
