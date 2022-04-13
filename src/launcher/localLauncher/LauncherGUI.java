@@ -10,8 +10,6 @@ import controler.controlerLocal.ChessGameControler;
 import model.observable.ChessGame;
 import vue.ChessGameGUI;
 
-
-
 /**
  * @author francoise.perrin
  * Lance l'exécution d'un jeu d'échec en mode graphique.
@@ -25,18 +23,18 @@ public class LauncherGUI {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		
 		ChessGame chessGame;	
 		ChessGameControlers chessGameControler;
 		JFrame frame;	
 		Dimension dim;
-	
+		
 		dim = new Dimension(700, 700);
 		
 		chessGame = new ChessGame();	
 		chessGameControler = new ChessGameControler(chessGame);
 		
-		frame = new ChessGameGUI("Jeu d'échec", chessGameControler,  dim);
+		frame = new ChessGameGUI(/**"Jeu d'échec", chessGameControler,  dim**/);
 		chessGame.addObserver((Observer) frame);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

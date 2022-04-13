@@ -1,6 +1,5 @@
 package model.observable;
 
-
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,7 +8,7 @@ import model.BoardGames;
 import model.Coord;
 import model.Couleur;
 import model.Echiquier;
-
+import vue.ChessGameGUI;
 
 /**
  * @author francoise.perrin
@@ -33,7 +32,6 @@ public class ChessGame extends Observable implements BoardGames{
 		this.notifyObservers(echiquier.getPiecesIHM()); 
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -44,7 +42,6 @@ public class ChessGame extends Observable implements BoardGames{
 		st = echiquier.toString();	
 		return  st;
 	}
-
 
 	/**
 	 * Permet de deplacer une piece connaissant ses coordonnees initiales vers ses
@@ -80,7 +77,6 @@ public class ChessGame extends Observable implements BoardGames{
 		return echiquier.getMessage();
 	}
 
-
 	public Couleur getColorCurrentPlayer(){		
 		return echiquier.getColorCurrentPlayer();		
 	}	
@@ -88,8 +84,6 @@ public class ChessGame extends Observable implements BoardGames{
 	public Couleur getPieceColor(int x, int y){
 		return echiquier.getPieceColor(x, y);
 	}
-
-	
 
 	/* (non-Javadoc)
 	 * @see java.util.Observable#notifyObservers(java.lang.Object)

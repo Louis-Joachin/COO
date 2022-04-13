@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Echiquier implements BoardGames {
-	Jeu current;
-	Jeu notCurrent;
-	String message;
+	private Jeu current;
+	private Jeu notCurrent;
+	public String message;
 
 	public Echiquier() {
 		notCurrent= new Jeu(Couleur.NOIR);
@@ -94,4 +94,5 @@ public class Echiquier implements BoardGames {
 		Echiquier monEchiquier = new Echiquier();
 		System.out.println(monEchiquier.getPiecesIHM());
 	}
+	
 }

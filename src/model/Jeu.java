@@ -67,7 +67,7 @@ public class Jeu {
 		int yInit = it.next();
 		int xFinal = it.next();
 		int yFinal= it.next();
-		Pieces piece = this.findPiece(xFinal, yFinal);
+		this.move(xFinal, yFinal, xInit, yInit);
 		//TODO
 		
 	}

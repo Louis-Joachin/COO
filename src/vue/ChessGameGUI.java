@@ -10,6 +10,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,14 +23,18 @@ import javax.swing.JPanel;
 
 import model.Coord;
 import model.Couleur;
+import model.Jeu;
+import model.PieceIHM;
+import model.observable.ChessGame;
 import tools.ChessImageProvider;
+import tools.ChessPiecePos;
 
 public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener, Observer {
-  JLayeredPane layeredPane;
-  JPanel chessBoard;
-  JLabel chessPiece;
-  int xAdjustment;
-  int yAdjustment;
+  private JLayeredPane layeredPane;
+  private JPanel chessBoard;
+  private JLabel chessPiece;
+  private int xAdjustment;
+  private int yAdjustment;
  
   public ChessGameGUI(){
 	  Dimension boardSize = new Dimension(600, 600);
@@ -58,88 +64,17 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	  else
 		  square.setBackground( i % 2 == 0 ? Color.white : Color.black );
 	  }
-	 
+	  
 	  //Add a few pieces to the board
-	  int j=0;
-	  while(j<64) {
-		  if(j==0||j==7) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Tour",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
+	  
+	  for (int i = 0; i < ChessPiecePos.values().length; i++) {
+		  for(int j=0; j< ChessPiecePos.values()[i].coords.length;j++) {
+			  int k = conversion(ChessPiecePos.values()[i].coords[j].x,ChessPiecePos.values()[i].coords[j].y);
+			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(ChessPiecePos.values()[i].nom,ChessPiecePos.values()[i].couleur)) );
+			  JPanel panel = (JPanel)chessBoard.getComponent(k);
 			  panel.add(piece);
 		  }
-		  if(j==1||j==6) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Cavalier",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==2||j==5) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Fou",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==3) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Reine",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==4) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Roi",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j>7&&j<16) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Pion",Couleur.BLANC)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  
-		  
-		  if(j>=48&&j<56) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Pion",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==56||j==63) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Tour",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==57||j==62) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Cavalier",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==58||j==61) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Fou",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==59) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Roi",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  if(j==60) {
-			  JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile("Reine",Couleur.NOIR)) );
-			  JPanel panel = (JPanel)chessBoard.getComponent(j);
-			  panel.add(piece);
-		  }
-		  j++;
 	  }
-	  
-	  
-	  /**
-	  JLabel piece = new JLabel(new ImageIcon("C:\\Users\\louis\\eclipse-workspace\\COO\\images\\pionBlancS.png") );
-	  JPanel panel = (JPanel)chessBoard.getComponent(15);
-	  panel.add(piece);
-	  piece = new JLabel(new ImageIcon("C:\\Users\\louis\\eclipse-workspace\\COO\\images\\roiBlancS.png"));
-	  panel = (JPanel)chessBoard.getComponent(16);
-	  panel.add(piece);
-	  piece = new JLabel(new ImageIcon("C:\\Users\\louis\\eclipse-workspace\\COO\\images\\cavalierBlancS.png"));
-	  panel = (JPanel)chessBoard.getComponent(20);
-	  panel.add(piece);
-	  **/
-
   }
  
   public void mousePressed(MouseEvent e){
@@ -185,7 +120,11 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	 
 	  chessPiece.setVisible(true);
   }
- 
+  
+  private int conversion(int x, int y) {
+		return y*8+x;
+	}
+  
   public void mouseClicked(MouseEvent e) {
   
   }
@@ -199,17 +138,27 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
   }
  
   public static void main(String[] args) {
-	  JFrame frame = new ChessGameGUI();
-	  frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
-	  frame.pack();
-	  frame.setResizable(true);
-	  frame.setLocationRelativeTo( null );
-	  frame.setVisible(true);
+	  ChessGameGUI chessGameGUI = new ChessGameGUI();
+	  
+	  chessGameGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
+	  chessGameGUI.pack();
+	  chessGameGUI.setResizable(true);
+	  chessGameGUI.setLocationRelativeTo( null );
+	  chessGameGUI.setVisible(true);
+	  
+	  ChessGame chessGame = new ChessGame();
+	  chessGame.addObserver(chessGameGUI);
  }
 
+@SuppressWarnings("unchecked")
 @Override
 public void update(Observable o, Object arg) {
-	// TODO Auto-generated method stub
-	
+	Iterator<PieceIHM> it = ((List<PieceIHM>) arg).listIterator();
+	PieceIHM element = it.next();
+	while(it.hasNext()){
+		List<Coord> coords =  element.getList();
+		
+		
+	}
 }
 }
